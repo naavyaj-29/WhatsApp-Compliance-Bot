@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerts</title>
+</head>
+<body>
+    <h1>Alerts (Side Effects & Noncompliance)</h1>
+    <table border="1">
+        <tr><th>Date/Time</th><th>Phone</th><th>Type</th><th>Message</th></tr>
+        {% for alert in alerts %}
+        <tr>
+            <td>{{ alert.datetime }}</td>
+            <td>{{ alert.phone }}</td>
+            <td>{{ alert.type }}</td>
+            <td>{{ alert.msg }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

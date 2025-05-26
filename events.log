@@ -1,0 +1,3 @@
+2025-05-25T10:00:00,+1234567890,compliance,Patient took medication
+2025-05-26T10:00:00,+1234567890,noncompliance,Patient missed medication
+2025-05-27T10:00:00,+1234567890,compliance,Patient took medication

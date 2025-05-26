@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clinician Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2, h3 { margin-top: 30px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn { margin-top: 10px; padding: 8px 12px; background-color: #007BFF; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    .btn:hover { background-color: #0056b3; }
+    .section { margin-bottom: 40px; }
+  </style>
+</head>
+<body>
+
+  {% if not session.logged_in %}
+  <h2>Clinician Login</h2>
+  <form method="POST" action="/">
+    <input type="password" name="password" placeholder="Enter password" required>
+    <button class="btn" type="submit">Login</button>
+  </form>
+  {% else %}
+
+  <h2>Clinician Dashboard</h2>
+
+  <div class="section">
+    <h3>Patients</h3>
+    <table>
+      <tr><th>Name</th><th>Phone</th><th>Symptoms</th><th>Therapy Start</th></tr>
+      {% for patient in patients %}
+      <tr>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.symptoms }}</td>
+        <td>{{ patient.start }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Appointments</h3>
+    <table>
+      <tr><th>Name</th><th>Phone</th><th>Next Appointment</th></tr>
+      {% for appt in appointments %}
+      <tr>
+        <td>{{ appt.name }}</td>
+        <td>{{ appt.phone }}</td>
+        <td>{{ appt.date }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Export Compliance Report</h3>
+    <form action="/export_report" method="post">
+      <button class="btn" type="submit">Download CSV</button>
+    </form>
+  </div>
+
+  <div class="section">
+    <h3>Compliance Trends</h3>
+    <canvas id="complianceChart" width="600" height="300"></canvas>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const labels = JSON.parse('{{ chart_data.labels | tojson | safe }}');
+      const complianceData = JSON.parse('{{ chart_data.compliance | tojson | safe }}');
+      const noncomplianceData = JSON.parse('{{ chart_data.noncompliance | tojson | safe }}');
+
+      const ctx = document.getElementById('complianceChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Compliant',
+              data: complianceData,
+              borderColor: 'green',
+              backgroundColor: 'rgba(0,128,0,0.1)',
+              fill: true
+            },
+            {
+              label: 'Noncompliant',
+              data: noncomplianceData,
+              borderColor: 'red',
+              backgroundColor: 'rgba(255,0,0,0.1)',
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Patient Compliance Trends'
+            },
+            legend: {
+              position: 'bottom'
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Event Count'
+              },
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    };
+  </script>
+
+  {% endif %}
+</body>
+</html>
