@@ -1,3 +1,135 @@
 2025-05-25T10:00:00,+1234567890,compliance,Patient took medication
 2025-05-26T10:00:00,+1234567890,noncompliance,Patient missed medication
 2025-05-27T10:00:00,+1234567890,compliance,Patient took medication
+2025-05-26T11:00:19.110454, +18603687114, compliance, yes
+2025-05-26T11:00:33.536687, +18603687114, noncompliance, No
+2025-05-26T11:08:20.234925, +18603687114, compliance, yes
+2025-05-26T11:08:25.589991, +18603687114, compliance, Yes
+2025-05-26T11:08:32.125194, +18603687114, compliance, yes
+2025-05-26T11:08:46.320254, +18603687114, side effect, redness
+2025-05-26T12:10:50.645021, +18603687114, compliance, yes
+2025-05-26T12:11:28.178405, +18603687114, compliance, yes
+2025-05-26T12:11:37.149007, +18603687114, compliance, yes
+2025-05-26T12:22:24.797254, +18603687114, compliance, I have itchy eyes
+2025-05-26T12:23:09.939909, +18603687114, compliance, Yes
+2025-05-26T12:23:17.169729, +18603687114, compliance, Itchy eyes
+2025-05-26T13:24:21.707910, +18603687114, compliance, Yes
+2025-05-26T14:06:23.400341, +18603687114, compliance, yes
+2025-05-26T14:06:50.762238, +18603687114, noncompliance, no
+2025-05-26T14:07:05.722151, +18603687114, compliance, Administered
+2025-05-26T14:07:10.409669, +18603687114, compliance, Yes
+2025-05-26T14:07:15.172062, +18603687114, compliance, yes
+2025-05-26T14:18:35.721090, +18603687114, compliance, Yes
+2025-05-26T14:18:42.083936, +18603687114, compliance, yes
+2025-05-26T14:19:59.103601, +18603687114, compliance, yes
+2025-05-26T14:20:48.749054, +18603687114, compliance, Itchy eyes
+2025-05-26T14:21:27.547349, +18603687114, noncompliance, Can you help me I have some side effects right now
+2025-05-26T14:34:49.865743, +18603687114, unclassified, Hi
+2025-05-26T14:37:19.081305, +18603687114, unclassified, Hi
+2025-05-26T14:37:31.062780, +18603687114, compliance, yes
+2025-05-26T14:37:57.543059, +18603687114, compliance, I have itchy eyes
+2025-05-26T14:38:11.292187, +18603687114, unclassified, Side effect of blurred vision
+2025-05-26T14:38:22.048909, +18603687114, unclassified, Severe pain
+2025-05-26T14:41:12.986201, +18603687114, unclassified, Hi
+2025-05-26T14:41:34.943412, +18603687114, unclassified, Are you good
+2025-05-26T14:43:39.633776, +18603687114, compliance, yes
+2025-05-26T14:43:43.999218, +18603687114, unclassified, Hello
+2025-05-26T14:43:47.046504, +18603687114, noncompliance, no
+2025-05-26T14:43:51.335031, +18603687114, compliance, Administered
+2025-05-26T14:44:59.635821, +18603687114, unclassified, Hello
+2025-05-26T14:46:16.646173, +18603687114, side effect, Severe pain
+2025-05-26T14:46:16.646878, +18603687114, severe side effect, severe pain
+2025-05-26T14:47:53.401248, +18603687114, unclassified, Hi
+2025-05-26T14:55:01.663211, +18603687114, unclassified, Hi
+2025-05-26T14:55:06.344656, +18603687114, compliance, yes
+2025-05-26T14:55:27.415458, +18603687114, side effect, I have severe pain
+2025-05-26T14:55:27.416235, +18603687114, severe side effect, severe pain
+2025-05-26T14:56:27.074665, +18603687114, side effect, I have severe pain
+2025-05-26T14:56:27.075626, +18603687114, severe side effect, severe pain
+2025-05-26T15:00:42.313599, +18603687114, unclassified, Hi
+2025-05-26T15:00:50.949764, +18603687114, compliance, yes I have medication
+2025-05-26T15:00:59.146315, +18603687114, noncompliance, I forgot to give medication
+2025-05-26T15:01:14.979271, +18603687114, unclassified, She has lots of side effects
+2025-05-26T15:11:13.980439, +18603687114, unclassified, Hi
+2025-05-26T15:15:29.811244, +18603687114, unclassified, Hi
+2025-05-26T19:23:36.510153, +18603687114, compliance, Yes
+2025-05-26T19:23:46.544643, +18603687114, compliance, Done
+2025-05-26T19:23:52.173441, +18603687114, noncompliance, No
+2025-05-26T19:24:02.724394, +18603687114, noncompliance, Forgot
+2025-05-26T19:24:22.693412, +18603687114, side effect, Child has redness in eyes
+2025-05-26T19:24:38.709608, +18603687114, side effect, Experiencing severe pain
+2025-05-26T19:24:38.710722, +18603687114, severe side effect, severe pain
+2025-05-26T19:32:41.492151, +18603687114, reschedule, Can I reschedule
+2025-05-26T19:32:52.973757, +18603687114, reschedule, Yes
+2025-05-26T19:32:59.000484, +18603687114, reschedule, No
+2025-05-26T19:33:14.778622, +18603687114, unclassified, Can you help me?
+2025-05-26T19:33:27.872606, +18603687114, compliance, Yes I gave medication.
+2025-05-26T19:33:47.433332, +18603687114, side effect, But theyre experiencing redness in eyes
+2025-05-26T19:33:59.926082, +18603687114, side effect, And severe pain
+2025-05-26T19:33:59.927831, +18603687114, severe side effect, severe pain
+2025-05-26T19:36:07.625077, +18603687114, side effect, Experiencing severe pain
+2025-05-26T19:36:07.627272, +18603687114, severe side effect, severe pain
+2025-05-26T19:36:16.730903, +18603687114, reschedule, Yes
+2025-05-26T19:37:12.536369, +18603687114, compliance, Yes I gave medication
+2025-05-26T19:37:33.849148, +18603687114, side effect, They're experiencing severe pain
+2025-05-26T19:37:33.850194, +18603687114, severe side effect, severe pain
+2025-05-26T19:39:22.197946, +18603687114, reschedule, Yes
+2025-05-26T19:39:33.558682, +18603687114, unclassified, Can you help
+2025-05-26T19:39:49.635315, +18603687114, side effect, Yes I gave medication but side effects like severe pain are there
+2025-05-26T19:39:49.637671, +18603687114, severe side effect, severe pain
+2025-05-26T19:40:01.824750, +18603687114, side effect, Experiencing severe pain
+2025-05-26T19:40:01.827325, +18603687114, severe side effect, severe pain
+2025-05-26T19:40:14.939610, +18603687114, reschedule, Yes
+2025-05-26T19:50:55.299592, +18603687114, unclassified, Hi
+2025-05-26T19:51:03.341041, +18603687114, reschedule_prompted, Can you reschedule
+2025-05-26T19:51:56.989225, +18603687114, compliance, Yes
+2025-05-26T19:52:12.235779, +18603687114, unclassified, Reschedule
+2025-05-26T19:52:22.275946, +18603687114, reschedule_prompted, reschedule
+2025-05-26T19:52:37.641048, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T19:52:43.060964, +18603687114, reschedule_confirmed, yes
+2025-05-26T19:52:57.697198, +18603687114, unclassified, Hello
+2025-05-26T19:53:08.328490, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T19:55:50.672347, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T19:56:15.444848, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T19:56:29.371877, +18603687114, compliance, Yes
+2025-05-26T19:56:35.821508, +18603687114, reschedule_confirmed, yes
+2025-05-26T19:56:47.922026, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T19:58:25.497875, +18603687114, reschedule_prompted, reschedule
+2025-05-26T20:00:36.782768, +18603687114, reschedule_prompted, I want to reschedule my appointment
+2025-05-26T20:00:42.716397, +18603687114, compliance, Yes
+2025-05-26T20:01:33.626776, +18603687114, reschedule_prompted, i want to reschedule my appointment
+2025-05-26T20:01:48.859816, +18603687114, reschedule_confirmed, yes
+2025-05-26T20:01:53.461103, +18603687114, reschedule_declined, no
+2025-05-26T20:02:06.371550, +18603687114, unclassified, can you help me
+2025-05-26T20:02:10.262257, +18603687114, reschedule_confirmed, yes
+2025-05-26T20:03:49.700542, +18603687114, reschedule_prompted, i want reschedule
+2025-05-26T20:06:29.255109, 18603687114, reschedule_prompted, please reschedule
+2025-05-26T20:06:44.087148, 18603687114, reschedule_confirmed, yes
+2025-05-26T20:06:49.004021, 18603687114, noncompliance, no
+2025-05-26T20:06:54.226229, 18603687114, compliance, yes
+2025-05-26T20:12:57.151301, 18603687114, reschedule_prompted, i'd like to reschedule
+2025-05-26T20:13:01.131391, 18603687114, reschedule_confirmed, yes
+2025-05-26T20:13:05.636049, 18603687114, unclassified, ok
+2025-05-26T20:13:13.057200, 18603687114, compliance, yes
+2025-05-26T20:13:17.961426, 18603687114, unclassified, ok
+2025-05-26T20:13:25.754165, 18603687114, unclassified, severe side effects there
+2025-05-26T20:13:35.523721, 18603687114, side effect, severe pain noticed
+2025-05-26T20:13:35.525681, 18603687114, severe side effect, severe pain
+2025-05-26T20:13:39.428260, 18603687114, compliance, yes
+2025-05-26T20:13:48.441104, 18603687114, compliance, ok yes
+2025-05-26T20:14:22.435571, 18603687114, compliance, yes
+2025-05-26T20:15:02.409683, 18603687114, reschedule_prompted, change
+2025-05-26T20:15:08.421381, 18603687114, reschedule_confirmed, yes
+2025-05-26T20:15:13.254999, 18603687114, compliance, yes
+2025-05-26T20:18:54.778959, 18603687114, medication_prompted, medication
+2025-05-26T20:20:46.751322, 18603687114, compliance, yes
+2025-05-26T20:20:57.189718, 18603687114, unclassified, hello
+2025-05-26T20:21:04.769005, 18603687114, unclassified, bro
+2025-05-26T20:21:12.015525, 18603687114, unclassified, i need help
+2025-05-26T20:23:24.389142, 18603687114, medication_prompted, medication
+2025-05-26T20:23:30.176415, 18603687114, compliance, yes
+2025-05-26T20:30:39.561765, 18603687114, reschedule_prompted, reschedule
+2025-05-26T20:30:43.745268, 18603687114, reschedule_confirmed, yes
+2025-05-26T20:30:54.185366, 18603687114, help_requested, i need help
+2025-05-26T20:31:15.276904, 18603687114, help_requested, i'm so confused
+2025-05-26T20:31:21.010831, 18603687114, unclassified, how should i do this
