@@ -4,3 +4,5 @@ blurry vision
 headache
 dry mouth
 drowsiness
+severe pain
+itchy eyes
