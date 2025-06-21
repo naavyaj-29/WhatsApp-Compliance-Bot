@@ -70,7 +70,7 @@ def setUserState(phone, new_state):
 
 
 
-def getComplianceTrends():
+def getComplianceTrends(): 
     import pandas as pd
     log_File = os.path.join(data_dir, "events.log")
     if not os.path.exists(log_File):
