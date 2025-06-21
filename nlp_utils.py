@@ -1,11 +1,11 @@
 import openai
-from config import OPENAI_API
 from models import load_side_effects
+from config import TOGETHER_API_KEY
 import json
 import re
+import together
 
 sideEffects = [effect.lower() for effect in load_side_effects()]
-openai.api_key = OPENAI_API
 
 COMPLIANCE_KEYWORDS = {
     "positive": ["yes", "done", "given", "administered", "applied", "used", "did it", "gave it", "gave the drops"],
@@ -17,92 +17,85 @@ HELP_KEYWORDS = [
     "need support", "reach out", "not working", "problem", "issue"
 
 ]
+
+def test_openai_key():
+    try:
+        together.api_key = TOGETHER_API_KEY
+        models = together.Models.list()
+        print("Together AI API key is valid. Models available:", [m["name"] for m in models["data"]])
+    except Exception as e:
+        print("OpenAI API key is invalid:", e)
+
 def detect_intent(text):
     text = text.lower()
     for kw in HELP_KEYWORDS:
         if kw in text:
             return "help"
-    return None
+    return "normal"
 
 def simple(text):
     text = text.lower()
     compliance = None
-    sideEffectFound = None
+    side_effect = None
 
-    if any(kw in text for kw in COMPLIANCE_KEYWORDS["positive"]):
-        compliance = True
-    elif any(kw in text for kw in COMPLIANCE_KEYWORDS["negative"]):
-        compliance = False
+    for word in COMPLIANCE_KEYWORDS["positive"]:
+        if word in text:
+            compliance = True
+            break
+    
+    for word in COMPLIANCE_KEYWORDS["negative"]:
+        if word in text:
+            compliance = False
+            break
 
     for effect in sideEffects:
         if effect in text:
-            sideEffectFound = effect
+            side_effect = effect
             break
+    return compliance, side_effect    
 
-    return compliance, sideEffectFound
-
-def parse_gpt_response(content):
-    try:
-        match = re.search(r'\{.*\}', content, re.DOTALL)
-        if not match:
-            raise ValueError("No JSON found in GPT response")
-        data = json.loads(match.group(0))
-
-        compliance_map = {
-            "yes":True,
-            "no":False,
-            "unsure":None
-        }
-        compliance_raw = data.get("compliance", "").strip().lower()
-        compliance = compliance_map.get(compliance_raw, None)
-
-        side_effect_found = None
-        if isinstance(data.get("side_effects"), list):
-            for effect in data["side_effects"]:
-                if effect.lower() in sideEffects:
-                    side_effect_found = effect.lower()
-                    break
-        return compliance, side_effect_found
-    except Exception as e:
-        print(f"Error parsing GPT response: {e}")
-        return None, None
-    
-
-def gpt(text):
-    if not OPENAI_API:
-        return simple(text)
+def gpt(user_message):
+    together.api_key = TOGETHER_API_KEY
     prompt = f"""
-You are an AI assistant helping a clinic monitor atropine eye drop therapy for pediatric patients.
-Given the caregiver message below, determine:
+You are an AI assistant checking if a patient took their eye drops. Here's the message they sent:
 
-1. Whether the medication was administered (compliance).
-2. If any known side effects were reported (you will be provided a list).
+"{user_message}"
 
-Message: "{text}"
+Please answer in JSON with the fields:
+- "compliance": one of ["yes", "no", "partial", "unsure"]
+- "sideEffect": one of ["none", "mild", "moderate", "severe", "unsure"]
+- "reply": a short, friendly message that fits the user's tone and provides encouragement or next steps.
 
-Known side effects: {sideEffects}
-
-Respond in this exact JSON format:
-{{
-  "compliance": "yes" | "no" | "unsure",
-  "side_effects": ["effect1", "effect2"] or []
-}}
+Respond only with JSON.
 """
     try:
-        response = openai.ChatCompletion.create(
-            model = "gpt-3.5-turbo",
-            messages = [
-                {"role": "system", "content": "You extract compliance and symptoms from caregiver messages."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature =0
+        response = together.Complete.create(
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+            prompt=prompt.strip(),
+            max_tokens=256,
+            temperature=0.4,
+            # stop=["\n\n", "\nPatient"]
         )
-        content = response['choices'][0]['message']['content']
-        print("raw output: ", content)
-        return parse_gpt_response(content)
+
+        print("=== GPT Debug ===")
+        print("Raw response object:", json.dumps(response, indent=2))
+        text = response['choices'][0]['text'].strip()
+        print("Raw GPT output text:", repr(text))
+
+        if not text:
+            print("GPT returned empty response text.")
+            return None, None, None
+
+        match = re.search(r"\{.*?\}", text, re.DOTALL)
+        if match:
+            json_str = match.group()
+            print("Extracted JSON string:", json_str)
+            parsed = json.loads(json_str)
+            return parsed.get("compliance"), parsed.get("sideEffect"), parsed.get("reply")
+        else:
+            print("No JSON found in GPT output")
+            return None, None, None
+
     except Exception as e:
-        print(f"GPT call failed: {e}")
-        return None, None
-    
-
-
+        print("Together API error:", e)
+        return None, None, None
