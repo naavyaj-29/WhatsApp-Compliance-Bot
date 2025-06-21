@@ -9,6 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 import time
 import re
+from nlp_utils import test_openai_key
 from flask import Response
 from twilio.rest import Client
 from config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_FROM
@@ -60,13 +61,39 @@ def bot():
     msg = resp.message()
     print(f"Message received: {incoming_msg} from {phone}")
 
-    intent = detect_intent(incoming_msg)
-    
     if patient is None:
         msg.body("You are not currently enrolled in the atropine monitoring system. Please contact your clinic.")
         print("Responding with:", str(resp))
         return Response(str(resp), mimetype="application/xml")
-    
+
+    compliance, sideEffect, reply = gpt(incoming_msg)
+    if compliance is None and sideEffect is None:
+        print("Calling Simple NLP for message:", incoming_msg)
+        compliance, sideEffect = simple(incoming_msg)
+        print(f"Fallback returned compliance={compliance}, sideEffect={sideEffect}")
+   
+    if sideEffect:
+        log_Event(phone, "side effect", incoming_msg)
+        if checkSevereSideEffects(sideEffect):
+            log_Event(phone, "severe side effect", sideEffect)
+            msg.body("This may require urgent care. A clinician will contact you shortly.")
+            alertClinician(phone, sideEffect)
+        else:
+            if sideEffect=='moderate' or sideEffect=='mild':
+                msg.body("Thanks for reporting the side effect. We will continue monitoring and reach out, if needed.")
+            else:
+                msg.body(reply)
+        return Response(str(resp), mimetype="application/xml")
+
+    if compliance is not None:
+        event_type = "compliance" if compliance else "noncompliance"
+        log_Event(phone, event_type, incoming_msg)
+        if compliance:
+            msg.body("Thanks for confirming you gave the medication and for supporting the treatment.")
+        else:
+            msg.body("Thanks for letting us know. Please try to follow the schedule as your clinic suggested.")
+        return Response(str(resp), mimetype="application/xml")
+
     intent = detect_intent(incoming_msg)
     if intent =="help":
         msg.body("It sounds like you need support. A clinic staff member will reach out to you shortly. If it's urgent, please contact the clinic directly.")
@@ -130,39 +157,12 @@ def bot():
         msg.body("Please clarify if your message refers to medication or side effects, or ask a question.")
         print("Responding with:", str(resp))
         return Response(str(resp), mimetype="application/xml")
-
-
-    compliance, sideEffect = simple(incoming_msg)
-    if compliance is None and sideEffect is None:
-        compliance, sideEffect = gpt(incoming_msg)
     
-    if sideEffect:
-        log_Event(phone, "side effect", incoming_msg)
-        if checkSevereSideEffects(sideEffect):
-            log_Event(phone, "severe side effect", sideEffect)
-            msg.body("This may require urgent care. A clinician will contact you shortly.")
-            alertClinician(phone, sideEffect)
-        else:
-            msg.body(f"Thanks for reporting: {sideEffect}. We will continue monitoring. ")
-        print("Responding with:", str(resp))
-        return Response(str(resp), mimetype="application/xml")
-    if compliance is not None:
-        event_type = "compliance" if compliance else "noncompliance"
-        log_Event(phone, event_type, incoming_msg)
-        if compliance:
-            msg.body("Thanks for confirming you gave the medication and for supporting the treatment.")
-        else:
-            msg.body("Thanks for letting us know. Please try to follow the schedule as your clinic suggested.")
-        print("Responding with:", str(resp))
-        return Response(str(resp), mimetype="application/xml")
-
-    
-    fallback_reply, _ = gpt(incoming_msg)
-    if fallback_reply is None:
-        fallback_reply = "I'm here to help! Can you clarify if you gave the medication or noticed any side effects?"
+    if reply:
+        msg.body(reply)
+    else:
+        msg.body("I'm here to help! Can you clarify if you gave the medication or noticed any side effects?")
     log_Event(phone, "unclassified", incoming_msg)
-    msg.body(fallback_reply)
-    print("Responding with:", str(resp))
     return Response(str(resp), mimetype="application/xml")
 
 
@@ -179,6 +179,7 @@ def sendReminder():
         client.messages.create(body = message, from_=TWILIO_WHATSAPP_FROM, to=f"whatsapp:{phone}")
 
 def sendCheckIn():
+    print("working")
     patients = load_patients()
     patients.columns = [col.lower().strip() for col in patients.columns]
     for _, patient in patients.iterrows():
@@ -211,14 +212,16 @@ severeSideEffects = [
     r'eye\s*pain\s*with\s*discharge'
 ]
 def checkSevereSideEffects(text):
+    print("checking...")
     text = text.lower()
     for pattern in severeSideEffects:
         if re.search(pattern, text):
             return True
     return False
 
+test_openai_key()
 scheduler.add_job(sendReminder, 'cron', day_of_week='mon', hour=20, minute=0)
-scheduler.add_job(sendCheckIn, 'cron', day_of_week='fri', hour=18, minute=0)
+scheduler.add_job(sendCheckIn, 'cron', day_of_week='wed', hour=23, minute=34)
 scheduler.add_job(sendAppointmentReminders, 'cron', hour=12)  
 
 if __name__ == '__main__':
