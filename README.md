@@ -1,4 +1,4 @@
-# Atropine Medication Compliance Bot MVP
+# AI-Powered Assistant for Medication Adherence
 
 A WhatsApp-based healthcare assistant that aims to monitor medication compliance and side effects, while creating ease of communication with patients and clinicians using Twilio, Flask, and GPT-based NLP.
 
